@@ -11,18 +11,18 @@ namespace Wu.Framework.Data
    public class UserService
     {
 
-
-        private ISession session;
-        public UserService(ISession session)
-        {
-            this.session = session;
-        }
+ public ISession Session { get; set; }
 
         public User GetUser(int Id)
         {
           
-          return session.Get<User>(Id);
+          return Session.Get<User>(Id);
         }
 
+
+        public IEnumerable<T> UserList<T>(System.Linq.Expressions.Expression<Func<T,bool>> func) where T:class
+        {
+          return  Session.QueryOver<T>().Where(func).List();
+        }
     }
 }

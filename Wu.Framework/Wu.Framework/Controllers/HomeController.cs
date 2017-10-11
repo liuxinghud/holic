@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Wu.Framework.Data;
+using Wu.Framework.Entity;
 
 namespace Wu.Framework.Controllers
 {
@@ -14,8 +15,8 @@ namespace Wu.Framework.Controllers
 
         public ActionResult Index()
         {
-        var user = UserService.GetUser(1000);
-            return View();
+            var ulist = UserService.UserList<User>(x => x.Gender);
+            return View(ulist);
         }
 
         public ActionResult About()

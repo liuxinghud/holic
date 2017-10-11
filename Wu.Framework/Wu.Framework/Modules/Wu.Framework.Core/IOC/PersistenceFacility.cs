@@ -65,7 +65,7 @@ namespace Wu.Framework.Core
             }
             catch (Exception ex)
             {
-                throw new FacilityException($"初始化Isessionfactory 失败:{ex.InnerException?.Message}");
+                throw new ArgumentNullException($"初始化Isessionfactory 失败:{ex.InnerException?.Message}");
             }
            
         }
