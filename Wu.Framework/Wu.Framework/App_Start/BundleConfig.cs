@@ -20,6 +20,7 @@ namespace Wu.Framework
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                      //"~/Scripts/popper.js",
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 

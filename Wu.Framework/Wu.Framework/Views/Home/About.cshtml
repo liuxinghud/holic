@@ -1,7 +1,23 @@
-﻿@{
+﻿@model IEnumerable<Wu.Framework.Entity.OperationLog>
+@{
     ViewBag.Title = "About";
+    var collection = Model;
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
 <p>Use this area to provide additional information.</p>
+<div class="row">
+    <div class="col-md-12">
+        @(collection.Count())
+        @foreach (var item in collection)
+        {
+            <p>Name:@(item.CreatedAt)</p>
+             
+            @*<code>@(Newtonsoft.Json.JsonConvert.SerializeObject(item))</code>*@
+            <code>@(item.IP)-@item.Message</code>
+        }
+
+
+    </div>
+</div>

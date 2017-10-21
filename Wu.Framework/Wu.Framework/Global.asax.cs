@@ -13,7 +13,7 @@ namespace Wu.Framework.Web
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        private static IWindsorContainer container;
+      //  private static IWindsorContainer container;
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -24,7 +24,7 @@ namespace Wu.Framework.Web
         }
         protected void Application_End(object sender, EventArgs e)
         {
-            container.Dispose();
+            Core.Ioc.container?.Dispose();
         }
 
         void Application_BeginRequest(object sender, EventArgs e)
@@ -50,11 +50,10 @@ namespace Wu.Framework.Web
 
         private static void BootstrapContainer()
         {
-            container = new WindsorContainer()
+           Core.Ioc.container= new WindsorContainer()
                 .Install(FromAssembly.InThisApplication());
-            var controllerFactory = new WindsorControllerFactory(container.Kernel);
+            var controllerFactory = new WindsorControllerFactory(Core.Ioc.container.Kernel);
             ControllerBuilder.Current.SetControllerFactory(controllerFactory);
         }
-      //  Classes.FromAssembly(Assembly.Load("")
     }
 }

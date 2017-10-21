@@ -10,7 +10,6 @@ namespace Wu.Framework.Entity
 {
    public class OperationLog:BaseEntity<long>
     {
-        public virtual DateTime Date { get; set; }
         /// <summary>
         /// 操作者
         /// </summary>
@@ -30,6 +29,6 @@ namespace Wu.Framework.Entity
 
         public virtual string StackTrace { get; set; }
 
-        public virtual Exception Exception { get; set; }
+        public virtual string Exception { get; set; }
     }
 }

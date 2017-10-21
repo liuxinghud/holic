@@ -37,15 +37,18 @@
         <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        @(collection.Count())
-        @foreach (var item in collection)
-        {
-            <p>Name:@(item.Name)</p>
-            <code>@(Newtonsoft.Json.JsonConvert.SerializeObject(item))</code>
-        }
+@if (collection!=null)
+{
+    <div class="row">
+        <div class="col-md-12">
+            @(collection.Count())
+            @foreach (var item in collection)
+            {
+                <p>Name:@(item.Name)</p>
+                <code>@(Newtonsoft.Json.JsonConvert.SerializeObject(item))</code>
+            }
 
 
+        </div>
     </div>
-</div>
+}

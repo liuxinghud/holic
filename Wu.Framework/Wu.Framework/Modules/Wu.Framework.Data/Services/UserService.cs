@@ -4,25 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wu.Framework.Core;
 using Wu.Framework.Entity;
 
 namespace Wu.Framework.Data
 {
    public class UserService
     {
-
- public ISession Session { get; set; }
-
-        public User GetUser(int Id)
+        public IRepository<User> Repository { get; set; }
+ 
+        public IList<User> UserList(System.Linq.Expressions.Expression<Func<User, bool>> func,int page,int pagesize)
         {
-          
-          return Session.Get<User>(Id);
+            return Repository.List(func, page, pagesize);
         }
+    
 
 
-        public IEnumerable<T> UserList<T>(System.Linq.Expressions.Expression<Func<T,bool>> func) where T:class
-        {
-          return  Session.QueryOver<T>().Where(func).List();
-        }
+
     }
 }
