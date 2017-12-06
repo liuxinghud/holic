@@ -19,7 +19,7 @@ namespace Wu.Framework.Entity
         /// </summary>
         public virtual OperationType OperationType { get; set; }
 
-        public virtual LogLevelEnum Level { get; set; }
+        public virtual LogLevelEnum Level { get; set; } = LogLevelEnum.INFO;
 
 
         public virtual string IP { get; set; }

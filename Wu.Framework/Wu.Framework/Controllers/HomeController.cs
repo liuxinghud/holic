@@ -22,6 +22,10 @@ namespace Wu.Framework.Controllers
 
         public ActionResult About()
         {
+
+            var us = new User { Name = "新增1", UserName = "xinzeng1" };
+             
+            RepositoryManager.Default.Of<User>().Save(us);
           var u=  RepositoryManager.Default.Of<User>().Get(1000);
             //  var nlog = UserService.Log();
             var log = new List<OperationLog>();

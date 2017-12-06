@@ -3,6 +3,7 @@ using Castle.Windsor.Installer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -16,19 +17,35 @@ namespace Wu.Framework.Web
       //  private static IWindsorContainer container;
         protected void Application_Start()
         {
+             Data.PersistenceFacility.CreateMysqlFactoryAsync();
             AreaRegistration.RegisterAllAreas();
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
             BootstrapContainer();
+            var res = InitMvc();
+
         }
+
+        private async Task<bool> InitMvc()
+        {
+           await Task.Run(() =>
+            {
+                FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+                RouteConfig.RegisterRoutes(RouteTable.Routes);
+                BundleConfig.RegisterBundles(BundleTable.Bundles);
+            });
+            return true;
+        }
+
+
+
         protected void Application_End(object sender, EventArgs e)
         {
+
             Core.Ioc.container?.Dispose();
         }
 
         void Application_BeginRequest(object sender, EventArgs e)
         {
+            Task.WaitAll();
            // MsSqlConnection.Context = HttpContext.Current;
             //每次请求时第一个出发的事件，这个方法第一个执行
         }
@@ -48,7 +65,7 @@ namespace Wu.Framework.Web
             //当安全模块已经验证了当前用户的授权时执行
         }
 
-        private static void BootstrapContainer()
+        private   void BootstrapContainer()
         {
            Core.Ioc.container= new WindsorContainer()
                 .Install(FromAssembly.InThisApplication());

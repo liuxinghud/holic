@@ -3,10 +3,12 @@ using NHibernate.Impl;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Wu.Framework.Core;
 
 namespace Wu.Framework.Data
 {
@@ -86,6 +88,7 @@ namespace Wu.Framework.Data
         public void Delete(object obj)
         {
             session.DeleteAsync(entityName, obj);
+            Logger.Instance.WriteLog(new Entity.OperationLog { CreatedAt = DateTime.Now, OperationType = Enums.EnumManager.OperationType.Deleted, Message = $"删除{entityName}{persistentClass.GetProperty("Name")?.Name}", Operater = null });
         }
 
         public int DeleteById(object id)
@@ -147,16 +150,23 @@ namespace Wu.Framework.Data
             }
         }
 
-        public object Save(T obj)
+        public T Save(T obj)
         {
+
+          var b= persistentClass.GetDisplayName();
+
+            var a = persistentClass.GetCustomAttributes(typeof(DisplayNameAttribute), false);
+
             object x = session.SaveAsync(entityName, obj);
-            return x;
+            Logger.Instance.WriteLog(new Entity.OperationLog {CreatedAt=DateTime.Now,OperationType=Enums.EnumManager.OperationType.Add,Message=$"新增{entityName}{persistentClass.GetProperty("Name")?.Name}",Operater=null,Level=Enums.EnumManager.LogLevelEnum.INFO });
+            return x as T;
         }
 
 
         public void SaveOrUpdate(T obj)
         {
             session.SaveOrUpdateAsync(entityName, obj);
+            Logger.Instance.WriteLog(new Entity.OperationLog { CreatedAt = DateTime.Now, OperationType = Enums.EnumManager.OperationType.Add, Message = $"新增{entityName}{persistentClass.GetProperty("Name")?.Name}", Operater = null });
         }
 
         public void SetIdentifier(T obj, object id)
@@ -193,7 +203,7 @@ namespace Wu.Framework.Data
         }
         public int Count(Expression<Func<T, bool>> predicate)
         {
-            return session.QueryOver<T>().Where(predicate).RowCount();
+            return session.Query<T>().Count(predicate);
         }
 
         public bool Exists(object id)

@@ -41,7 +41,7 @@ namespace Wu.Framework.Data
         object GetIdentifier(T obj);
         void SetIdentifier(T obj, object id);
         void Save(IEnumerable<T> collection);
-        object Save(T obj);
+        T Save(T obj);
    
         void SaveOrUpdate(T obj);
         void Update(IEnumerable<T> collection);
